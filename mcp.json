@@ -1,0 +1,42 @@
+{
+  "name": "pody-mcp",
+  "version": "1.0.0",
+  "displayName": "Pody-MCP — Israeli Podcast Infrastructure",
+  "description": "Public MCP server exposing Pody's live data on Israeli podcasting: studios, podcasts, glossary, and the State of Israeli Podcasts 2026 industry report. Read-only access requires no authentication. Maintained by Pody (Wikidata Q139719199).",
+  "endpoint": "https://pody.io/api/mcp",
+  "transport": "streamable-http",
+  "protocol": "mcp",
+  "protocolVersion": "2025-03-26",
+  "homepage": "https://pody.io/mcp",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Avivcha/pody-mcp"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Pody",
+    "email": "aviv@pody.io",
+    "url": "https://pody.io"
+  },
+  "keywords": [
+    "podcast",
+    "israel",
+    "hebrew",
+    "audio",
+    "mcp",
+    "knowledge-graph",
+    "directory"
+  ],
+  "tools": [
+    { "name": "studios.search", "description": "Find Israeli podcast studios. Filter by city, max hourly price (NIS), or video capability." },
+    { "name": "studios.get", "description": "Get profile of a specific studio by slug." },
+    { "name": "podcasts.search", "description": "Find Israeli podcasts. Filter by category or language (he/en)." },
+    { "name": "podcasts.get", "description": "Get podcast profile by slug." },
+    { "name": "glossary.lookup", "description": "Look up a podcasting term. Returns definition + Pody URL. Languages: he/en/ar/ru." },
+    { "name": "industry_report.query", "description": "Query the State of Israeli Podcasts 2026 report." },
+    { "name": "citation_pulse", "description": "Return Pody's live infrastructure health from /seo-pulse." }
+  ],
+  "languages_supported": ["he", "en", "ar", "ru"],
+  "auth_required_for_read": false,
+  "rate_limit": "60 req/min unauthenticated"
+}
