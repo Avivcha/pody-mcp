@@ -1,0 +1,28 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.avivcha/pody-mcp",
+  "description": "Public Model Context Protocol server for Pody — Israeli podcast infrastructure (Wikidata Q139719199). 7 read-only tools exposing live data on studios, podcasts, glossary, and the State of Israeli Podcasts 2026 industry report.",
+  "version": "1.0.0",
+  "status": "active",
+  "repository": {
+    "url": "https://github.com/Avivcha/pody-mcp",
+    "source": "github"
+  },
+  "websiteUrl": "https://pody.io/mcp",
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "@avivcharuvi/pody-mcp",
+      "version": "1.0.0",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://pody.io/api/mcp"
+    }
+  ]
+}
