@@ -12,7 +12,7 @@
 //     "mcpServers": {
 //       "pody": {
 //         "command": "npx",
-//         "args": ["@avivcharuvi/pody-mcp"]
+//         "args": ["-y", "@avivcharuvi/pody-mcp"]
 //       }
 //     }
 //   }
@@ -20,7 +20,20 @@
 const ENDPOINT = process.env.PODY_MCP_ENDPOINT || 'https://pody.io/api/mcp'
 const TIMEOUT_MS = parseInt(process.env.PODY_MCP_TIMEOUT_MS || '15000', 10)
 
-// Buffer stdin → parse newline-delimited JSON-RPC requests → POST to endpoint → write response to stdout
+// Track in-flight requests so we exit cleanly when stdin closes AND all
+// requests have been responded to.
+let stdinEnded = false
+let inFlight = 0
+
+const tryExit = () => {
+  if (stdinEnded && inFlight === 0) {
+    // Flush stdout before exit to avoid losing the last response
+    process.stdout.once('drain', () => process.exit(0))
+    if (!process.stdout.write('')) return
+    process.exit(0)
+  }
+}
+
 let buffer = ''
 process.stdin.setEncoding('utf8')
 
@@ -31,14 +44,35 @@ process.stdin.on('data', (chunk) => {
     const line = buffer.slice(0, newlineIdx).trim()
     buffer = buffer.slice(newlineIdx + 1)
     if (line.length === 0) continue
-    handleRequest(line).catch((err) => {
-      process.stderr.write(`[pody-mcp] handler error: ${err.message}\n`)
-    })
+    inFlight += 1
+    handleRequest(line)
+      .catch((err) => {
+        process.stderr.write(`[pody-mcp] handler error: ${err.message}\n`)
+      })
+      .finally(() => {
+        inFlight -= 1
+        tryExit()
+      })
   }
 })
 
 process.stdin.on('end', () => {
-  process.exit(0)
+  // Handle any trailing line without newline
+  if (buffer.trim().length > 0) {
+    const line = buffer.trim()
+    buffer = ''
+    inFlight += 1
+    handleRequest(line)
+      .catch((err) => process.stderr.write(`[pody-mcp] handler error: ${err.message}\n`))
+      .finally(() => {
+        inFlight -= 1
+        stdinEnded = true
+        tryExit()
+      })
+    return
+  }
+  stdinEnded = true
+  tryExit()
 })
 
 async function handleRequest(line) {
@@ -70,7 +104,6 @@ async function handleRequest(line) {
     try {
       parsed = JSON.parse(text)
     } catch {
-      // Endpoint returned non-JSON — wrap as a JSON-RPC error
       writeResponse({
         jsonrpc: '2.0',
         error: { code: -32603, message: `Upstream returned non-JSON (HTTP ${res.status})`, data: text.slice(0, 500) },
