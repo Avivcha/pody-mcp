@@ -8,7 +8,7 @@
 The package is a thin stdio→HTTPS proxy. It doesn't host the real MCP server — that lives at https://pody.io/api/mcp. The npm package is what the Anthropic Registry indexes.
 
 ```bash
-cd ~/Desktop/Claude/Pody/pody-mcp-repo
+cd ~/Desktop/Claude/pody-mcp
 chmod +x bin/pody-mcp.js
 
 # Log in to npm (or sign up at https://www.npmjs.com/signup)
@@ -41,7 +41,7 @@ mcp-publisher --version
 The Anthropic registry verifies that you own the GitHub repo referenced in `server.json` (https://github.com/Avivcha/pody-mcp).
 
 ```bash
-cd ~/Desktop/Claude/Pody/pody-mcp-repo
+cd ~/Desktop/Claude/pody-mcp
 mcp-publisher login github
 # A browser tab opens → click Authorize → done
 ```
@@ -49,7 +49,7 @@ mcp-publisher login github
 ## Step 4: Publish to Anthropic Registry (1 min)
 
 ```bash
-cd ~/Desktop/Claude/Pody/pody-mcp-repo
+cd ~/Desktop/Claude/pody-mcp
 mcp-publisher publish
 ```
 
