@@ -55,7 +55,7 @@ mcp-publisher publish
 
 The CLI reads `server.json` from the current directory, sends it to the registry, and waits for verification (~30 seconds).
 
-Verify at: https://registry.modelcontextprotocol.io/v0/servers/io.github.avivcha/pody-mcp
+Verify at: https://registry.modelcontextprotocol.io/v0.1/servers/io.github.Avivcha%2Fpody-mcp/versions/latest
 
 ## Step 5: Update README and announce (4 min)
 

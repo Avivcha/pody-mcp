@@ -2,7 +2,7 @@
   "name": "@avivcharuvi/pody-mcp",
   "version": "1.0.0",
   "description": "Public Model Context Protocol server for Pody — Israeli podcast infrastructure (Wikidata Q139719199). 7 read-only tools: studios.search, studios.get, podcasts.search, podcasts.get, glossary.lookup, industry_report.query, citation_pulse.",
-  "mcpName": "io.github.avivcha/pody-mcp",
+  "mcpName": "io.github.Avivcha/pody-mcp",
   "type": "module",
   "main": "./bin/pody-mcp.js",
   "bin": {
